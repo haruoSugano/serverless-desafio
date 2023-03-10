@@ -1,4 +1,6 @@
 import { APIGatewayProxyHandler } from "aws-lambda"
+import { writeFileSync } from "fs";
+import { join } from "path";
 import { v4 as uuidV4 } from "uuid";
 
 interface ICreateUser {
@@ -8,10 +10,11 @@ interface ICreateUser {
     todos?: [];
 }
 
+const users = [];
+
 export const handler: APIGatewayProxyHandler = async (event) => {
-    const users = [];
     const { name, username } = JSON.parse(event.body) as ICreateUser;
-    
+
     const user = {
         id: uuidV4(),
         name: name,
@@ -21,6 +24,8 @@ export const handler: APIGatewayProxyHandler = async (event) => {
 
     users.push(user);
 
+    writeFileSync(join(process.cwd(), "src", "database", "users.json"), JSON.stringify(users));
+
     return {
         statusCode: 201,
         body: JSON.stringify({
@@ -29,4 +34,3 @@ export const handler: APIGatewayProxyHandler = async (event) => {
         })
     };
 }
-

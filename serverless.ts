@@ -45,6 +45,18 @@ const serverlessConfiguration: AWS = {
         }
       ]
     },
+    getUserById: {
+      handler: "src/functions/users/getUserById.handler",
+      events: [
+        {
+          http: {
+            path: "getUserById/{id}",
+            method: "get",
+            cors: true,
+          }
+        }
+      ]
+    },
     createTodos: {
       handler: "src/functions/todos/createTodos.handler",
       events: [
