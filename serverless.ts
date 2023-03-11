@@ -62,13 +62,25 @@ const serverlessConfiguration: AWS = {
       events: [
         {
           http: {
-            path: "createTodos",
+            path: "createTodos/{id}",
             method: "post",
             cors: true,
           }
         }
       ]
-    }
+    },
+    getTodosByIdUser: {
+      handler: "src/functions/todos/getTodosByIdUser.handler",
+      events: [
+        {
+          http: {
+            path: "getTodosByUserId/{id}",
+            method: "get",
+            cors: true,
+          }
+        }
+      ]
+    },
    },
   package: { individually: true },
   custom: {
